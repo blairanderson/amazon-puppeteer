@@ -12,7 +12,13 @@ app.get('/:asin', function(request, response) {
   const { asin } = request.params;
 
   if (asin.match(asinRegex)) {
-    fetchASIN(asin).then(response.json);
+    fetchASIN(asin)
+      .then(function(data) {
+        response.json(data);
+      })
+      .catch(function(error) {
+        console.log('ERROR', error);
+      });
   } else {
     response.json(Object.assign({}, request.params, { message }));
   }
