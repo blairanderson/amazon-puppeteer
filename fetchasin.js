@@ -56,7 +56,7 @@ function parseMerchant($) {
   const merchantString = merchantEl
     .text()
     .trim()
-    .split('.');
+    .split('.')[0];
 
   const amazon =
     merchantString.indexOf('Ships from and sold by Amazon.com') > -1;
@@ -101,14 +101,23 @@ function parseBrand($) {
 }
 
 function parseReviews($) {
-  const reviewsEl = $('#acrCustomerReviewLink');
+  const reviewStars = $('#acrPopover').attr('title');
+  const reviewsEl = $('#acrCustomerReviewText');
+  const text = reviewsEl.text().trim();
   return {
-    text: reviewsEl.text().trim()
+    text,
+    reviewStars
   };
 }
 
 function parseBreadCrumbs($) {
-  return $('#wayfinding-breadcrumbs_feature_div ul li a.a-link-normal').text();
+  const el = $('#wayfinding-breadcrumbs_feature_div ul li a.a-link-normal');
+  const text = el.text();
+  const length = el.length;
+  return {
+    text,
+    length
+  };
 }
 
 function parseAPlus($) {

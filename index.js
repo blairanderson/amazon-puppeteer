@@ -8,36 +8,46 @@ const now = require('performance-now');
 app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
 
-app.get('/:asin', function(request, response) {
+function start() {
   const start = now();
-  console.log((start - end).toFixed(3));
+  return {
+    done: function() {
+      const end = now();
+      return ((end - start) / 1000).toFixed(3);
+    }
+  };
+}
+
+app.get('/:asin', function(request, response) {
+  const timer = start();
   console.log(JSON.stringify(request.params));
   const { asin } = request.params;
 
   if (asin.match(asinRegex)) {
     fetchASIN(asin)
       .then(function(data) {
-        const end = now();
-        const time = (start - end).toFixed(3);
-        response.json(Object.assign({}, data, { time }));
+        response.json(Object.assign({}, data, { time: timer.done() }));
       })
       .catch(function(error) {
         console.log('ERROR', error);
       });
   } else {
-    const time = (start - end).toFixed(3);
-    response.json(Object.assign({}, request.params, { message, time }));
+    response.json(
+      Object.assign({}, request.params, { message, time: timer.done() })
+    );
   }
 });
 
 app.get('/', function(request, response) {
+  const timer = start();
   response.json(
     Object.assign(
       {},
       request.params,
       {
         message: 'expected path is /ASIN1234567',
-        error: 'path not found, must include asin'
+        error: 'path not found, must include asin',
+        time: timer.done()
       },
       { status: 404 }
     )
