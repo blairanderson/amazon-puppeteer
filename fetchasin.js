@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const asins = require('./asins.js');
+const parseBreadCrumbs = require('./parsers/breadcrumbs');
 
 async function fetchASIN(asin) {
   const browser = await puppeteer.launch({
@@ -110,16 +111,6 @@ function parseReviews($) {
   return {
     text,
     reviewStars
-  };
-}
-
-function parseBreadCrumbs($) {
-  const el = $('#wayfinding-breadcrumbs_feature_div ul li a.a-link-normal');
-  const text = el.text();
-  const length = el.length;
-  return {
-    text,
-    length
   };
 }
 
