@@ -2,6 +2,32 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const cheerio = require('cheerio');
 const asins = require('./asins.js');
+const express = require('express');
+const app = express();
+const asinRegex = new RegExp('([A-Z0-9]{10})');
+
+app.set('port', process.env.PORT || 5000);
+app.use(express.static(__dirname + '/public'));
+
+app.get('/:asin', function(request, response) {
+  const { asin } = request.params;
+  console.log(JSON.stringify(request.params));
+  if (asin.match(asinRegex)) {
+    fetchASIN(asin).then(function(data) {
+      response.json(data);
+    });
+  } else {
+    response.json(
+      Object.assign({}, request.params, {
+        message: 'Sorry that asin does not match the pattern'
+      })
+    );
+  }
+});
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
 
 async function fetchASIN(asin) {
   const path = `https://www.amazon.com/dp/${asin}`;
@@ -24,12 +50,6 @@ async function fetchASIN(asin) {
   const timeNow = Date().toString();
   return Object.assign({}, parsed, { asin, path, timeNow });
 }
-
-const asin = asins[Math.floor(Math.random() * asins.length)];
-
-fetchASIN(asin).then(function(yolo) {
-  console.log(yolo);
-});
 
 function processInfo(html) {
   const $ = cheerio.load(html);
