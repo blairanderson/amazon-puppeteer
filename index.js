@@ -1,9 +1,11 @@
-const fetchASIN = require('./fetchasin.js');
+require('dotenv').config();
 const express = require('express');
 const app = express();
-const asinRegex = new RegExp('([A-Z0-9]{10})');
+const fetchASIN = require('./fetchasin.js');
 const start = require('./utils').start;
 const ignoreFavicon = require('./utils').ignoreFavicon;
+const expressMiddlewareApikey = require('express-middleware-apikey');
+
 const rd = require('redis').createClient;
 const redis = process.env.REDIS_URL
   ? rd(process.env.REDIS_URL)
@@ -12,8 +14,9 @@ const redis = process.env.REDIS_URL
 app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
 app.use(ignoreFavicon);
-app.get('/:asin', cache, asinController);
 app.get('/', notFound);
+app.use(expressMiddlewareApikey(process.env.API_KEY));
+app.get('/:asin', cache, asinController);
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
@@ -39,7 +42,7 @@ function asinController(req, res) {
   const timer = start();
   const { asin } = req.params;
 
-  if (asin.match(asinRegex)) {
+  if (asin.match(new RegExp('([A-Z0-9]{10})'))) {
     fetchASIN(asin)
       .then(function(data) {
         // seconds * minutes * hours
