@@ -4,7 +4,9 @@ const asins = require('./asins.js');
 
 async function fetchASIN(asin) {
   const path = `https://www.amazon.com/dp/${asin}`;
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
   const page = await browser.newPage();
   await page.setViewport({ width: 1680, height: 895 });
   await page.setUserAgent(
