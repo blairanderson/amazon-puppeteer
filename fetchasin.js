@@ -3,12 +3,12 @@ const cheerio = require('cheerio');
 const asins = require('./asins.js');
 
 async function fetchASIN(asin) {
-  const path = `https://www.amazon.com/dp/${asin}`;
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
   const page = await browser.newPage();
+  const path = `https://www.amazon.com/dp/${asin}`;
   await page.setViewport({ width: 1680, height: 895 });
   await page.setUserAgent(
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
@@ -32,7 +32,7 @@ module.exports = fetchASIN;
 
 function processInfo(html) {
   const $ = cheerio.load(html);
-  const merchant = parseMerchant($);
+  const buybox = parseBuyBox($);
   const price = parsePrice($);
   const images = parseImages($);
   const brand = parseBrand($);
@@ -41,7 +41,7 @@ function processInfo(html) {
   const aplus = parseAPlus($);
 
   return {
-    merchant,
+    buybox,
     price,
     brand,
     breadcrumbs,
@@ -51,18 +51,16 @@ function processInfo(html) {
   };
 }
 
-function parseMerchant($) {
+function parseBuyBox($) {
   const merchantEl = $('#merchant-info');
   const merchantString = merchantEl
     .text()
     .trim()
-    .split('.')[0];
+    .split('Gift-wrap available.')[0];
 
-  const amazon =
-    merchantString.indexOf('Ships from and sold by Amazon.com') > -1;
+  const amazon = merchantString.indexOf('Ships from and sold by Amazon') > -1;
   const fba = merchantString.indexOf('Fulfilled by Amazon') > -1;
-
-  const merchantLink = merchantEl.find('a') && {
+  const merchantLink = {
     text: merchantEl
       .find('a')
       .text()
@@ -102,8 +100,13 @@ function parseBrand($) {
 
 function parseReviews($) {
   const reviewStars = $('#acrPopover').attr('title');
-  const reviewsEl = $('#acrCustomerReviewText');
-  const text = reviewsEl.text().trim();
+  // for some reason this is duplicated.
+  const textRaw = $('#acrCustomerReviewLink #acrCustomerReviewText')
+    .text()
+    .trim();
+
+  const text = textRaw.slice(0, textRaw.length / 2);
+
   return {
     text,
     reviewStars
