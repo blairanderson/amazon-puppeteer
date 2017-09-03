@@ -12,8 +12,7 @@ const redis = process.env.REDIS_URL
 app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
 app.use(ignoreFavicon);
-// app.get('/:asin', cache, asinController);
-app.get('/:asin', asinController);
+app.get('/:asin', cache, asinController);
 app.get('/', notFound);
 
 app.listen(app.get('port'), function() {
@@ -22,12 +21,15 @@ app.listen(app.get('port'), function() {
 
 function cache(req, res, next) {
   const { asin } = req.params;
+  const timer = start();
   redis.get(asin, function(err, data) {
     if (err) throw err;
 
     if (data != null) {
-      res.json(JSON.parse(data));
+      console.log('cache-hit', asin);
+      res.json(Object.assign({ time: timer.done() }, JSON.parse(data)));
     } else {
+      console.log('cache-miss', asin);
       next();
     }
   });
@@ -35,19 +37,20 @@ function cache(req, res, next) {
 
 function asinController(req, res) {
   const timer = start();
-  console.log(JSON.stringify(req.params));
   const { asin } = req.params;
 
   if (asin.match(asinRegex)) {
     fetchASIN(asin)
       .then(function(data) {
-        // redis.setex(asin, 3600, JSON.stringify(data));
+        redis.setex(asin, 3600, JSON.stringify(data));
         res.json(Object.assign({ time: timer.done() }, data));
       })
       .catch(function(error) {
+        timer.done();
         notFound(req, res);
       });
   } else {
+    timer.done();
     notFound(req, res);
   }
 }
