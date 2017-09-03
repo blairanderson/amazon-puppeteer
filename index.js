@@ -23,6 +23,20 @@ app.get('/:asin', function(request, response) {
   }
 });
 
+app.get('/', function(request, response) {
+  response.json(
+    Object.assign(
+      {},
+      request.params,
+      {
+        message: 'expected path is /ASIN1234567',
+        error: 'path not found, must include asin'
+      },
+      { status: 404 }
+    )
+  );
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
