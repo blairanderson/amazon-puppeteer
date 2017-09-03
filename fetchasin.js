@@ -19,6 +19,7 @@ async function fetchASIN(asin) {
   //   console.log("The file was saved!");
   // });
   // await page.screenshot({path: `${asin}.png`, fullPage: true});
+
   browser.close();
   const timeNow = Date().toString();
   return Object.assign({}, parsed, { asin, path, timeNow });
