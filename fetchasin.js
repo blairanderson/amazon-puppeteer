@@ -64,7 +64,9 @@ function parseBuyBox($) {
     text: merchantEl
       .find('a')
       .text()
-      .trim(),
+      .trim()
+      .replace('Fulfilled by Amazon', '')
+      .replace('easy-to-open packaging', ''),
     href: merchantEl.find('a').attr('href')
   };
 
