@@ -42,7 +42,9 @@ function asinController(req, res) {
   if (asin.match(asinRegex)) {
     fetchASIN(asin)
       .then(function(data) {
-        redis.setex(asin, 3600, JSON.stringify(data));
+        // seconds * minutes * hours
+        const exp = 60 * 60 * 3; // 6 hours
+        redis.setex(asin, exp, JSON.stringify(data));
         res.json(Object.assign({ time: timer.done() }, data));
       })
       .catch(function(error) {

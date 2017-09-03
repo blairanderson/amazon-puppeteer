@@ -2,6 +2,9 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const asins = require('./asins.js');
 const parseBreadCrumbs = require('./parsers/breadcrumbs');
+const parseReviews = require('./parsers/reviews');
+const parseBuyBox = require('./parsers/buybox');
+
 const userAgent =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36';
 
@@ -32,48 +35,15 @@ module.exports = fetchASIN;
 
 function processInfo(html) {
   const $ = cheerio.load(html);
-  const buybox = parseBuyBox($);
-  const price = parsePrice($);
-  const images = parseImages($);
-  const brand = parseBrand($);
-  const reviews = parseReviews($);
-  const breadcrumbs = parseBreadCrumbs($);
-  const aplus = parseAPlus($);
 
   return {
-    buybox,
-    price,
-    brand,
-    images,
-    reviews,
-    aplus,
-    breadcrumbs
-  };
-}
-
-function parseBuyBox($) {
-  const merchantEl = $('#merchant-info');
-  const merchantString = merchantEl
-    .text()
-    .trim()
-    .split('Gift-wrap available.')[0];
-
-  const amazon = merchantString.indexOf('Ships from and sold by Amazon') > -1;
-  const fba = merchantString.indexOf('Fulfilled by Amazon') > -1;
-  const merchantLink = {
-    text: merchantEl
-      .find('a')
-      .text()
-      .trim()
-      .replace('Fulfilled by Amazon', '')
-      .replace('easy-to-open packaging', ''),
-    href: merchantEl.find('a').attr('href')
-  };
-
-  return {
-    amazon,
-    fba,
-    merchantLink
+    buybox: parseBuyBox($),
+    price: parsePrice($),
+    brand: parseBrand($),
+    images: parseImages($),
+    reviews: parseReviews($),
+    aplus: parseAPlus($),
+    breadcrumbs: parseBreadCrumbs($)
   };
 }
 
@@ -97,21 +67,6 @@ function parseBrand($) {
   return {
     text: brandEl.text().trim(),
     href: brandEl.attr('href')
-  };
-}
-
-function parseReviews($) {
-  const reviewStars = $('#acrPopover').attr('title');
-  // for some reason this is duplicated.
-  const textRaw = $('#acrCustomerReviewLink #acrCustomerReviewText')
-    .text()
-    .trim();
-
-  const text = textRaw.slice(0, textRaw.length / 2);
-
-  return {
-    text,
-    reviewStars
   };
 }
 
