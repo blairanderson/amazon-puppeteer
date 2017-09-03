@@ -1,4 +1,10 @@
 {
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.15.4",
