@@ -2,31 +2,30 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const asins = require('./asins.js');
 const parseBreadCrumbs = require('./parsers/breadcrumbs');
+const userAgent =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36';
+
+const puppeteerArgs = {
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+};
 
 async function fetchASIN(asin) {
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-
+  const browser = await puppeteer.launch(puppeteerArgs);
   const page = await browser.newPage();
   const path = `https://www.amazon.com/dp/${asin}`;
   await page.setViewport({ width: 1680, height: 895 });
-  await page.setUserAgent(
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
-  );
+  await page.setUserAgent(userAgent);
   await page.goto(path);
   const content = await page.content();
   const parsed = processInfo(content);
+  browser.close();
+  return Object.assign({ asin, path, timeNow: Date().toString() }, parsed);
 
   // fs.writeFile(`./${asin}.html`, content, function(err) {
   //   if(err) {return console.log(err);}
   //   console.log("The file was saved!");
   // });
   // await page.screenshot({path: `${asin}.png`, fullPage: true});
-
-  browser.close();
-  const timeNow = Date().toString();
-  return Object.assign({}, parsed, { asin, path, timeNow });
 }
 
 module.exports = fetchASIN;
@@ -45,10 +44,10 @@ function processInfo(html) {
     buybox,
     price,
     brand,
-    breadcrumbs,
     images,
     reviews,
-    aplus
+    aplus,
+    breadcrumbs
   };
 }
 
