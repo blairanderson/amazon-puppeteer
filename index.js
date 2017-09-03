@@ -3,24 +3,30 @@ const express = require('express');
 const app = express();
 const asinRegex = new RegExp('([A-Z0-9]{10})');
 const message = 'Sorry that asin does not match the pattern';
+const now = require('performance-now');
 
 app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
 
 app.get('/:asin', function(request, response) {
+  const start = now();
+  console.log((start - end).toFixed(3));
   console.log(JSON.stringify(request.params));
   const { asin } = request.params;
 
   if (asin.match(asinRegex)) {
     fetchASIN(asin)
       .then(function(data) {
-        response.json(data);
+        const end = now();
+        const time = (start - end).toFixed(3);
+        response.json(Object.assign({}, data, { time }));
       })
       .catch(function(error) {
         console.log('ERROR', error);
       });
   } else {
-    response.json(Object.assign({}, request.params, { message }));
+    const time = (start - end).toFixed(3);
+    response.json(Object.assign({}, request.params, { message, time }));
   }
 });
 
