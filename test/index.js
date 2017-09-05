@@ -1,26 +1,36 @@
 const fs = require('fs');
 const path = require('path');
 const cheerio = require('cheerio');
+const equal = require('deep-equal');
+const TESTS = ['images', 'breadcrumbs'];
 
-function testMe(test, parser, done) {
-  fs.readFile(path.join(__dirname, test), { encoding: 'utf-8' }, function(
-    err,
-    data
-  ) {
-    if (err) {
-      console.log(err);
-      done(err, null);
-    } else {
-      console.log(require(parser)(cheerio.load(data)));
-      done(null, 'yolo');
+//   'breadcrumb.html': '../parsers/breadcrumbs.js',
+//   'images.html': '../parsers/images.js'
+// };
+
+function testMe(func) {
+  fs.readFile(
+    path.join(__dirname, func + '.html'),
+    { encoding: 'utf-8' },
+    function(err, testData) {
+      if (err) {
+        console.log(err);
+        throw 'error reading testfile' + func;
+      } else {
+        const context = cheerio.load(testData);
+        const parser = require('../parsers/' + func + '.js');
+        const result = parser.parse(context);
+        const expectation = parser.expectation;
+        if (equal(result, expectation)) {
+          console.log('func:', func, 'success!!!');
+        } else {
+          console.log('func:', func, 'failure...');
+          console.log('expected:', expectation);
+          console.log('got:', result);
+        }
+      }
     }
-  });
+  );
 }
 
-testMe('breadcrumb.html', '../parsers/breadcrumbs.js', function(err, success) {
-  if (err) {
-    console.log('err', err);
-  } else {
-    console.log('success', success);
-  }
-});
+TESTS.forEach(testMe);

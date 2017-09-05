@@ -1,4 +1,5 @@
-module.exports = function($) {
+module.exports = {};
+module.exports.parse = function($) {
   const rating = $('#acrPopover').attr('title');
   const ratingAverage = parseFloat(rating);
   // for some reason this is duplicated.
