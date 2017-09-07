@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const cheerio = require('cheerio');
 const equal = require('deep-equal');
-const TESTS = ['images', 'breadcrumbs'];
+const TESTS = ['images', 'breadcrumbs', 'bullets'];
 
 //   'breadcrumb.html': '../parsers/breadcrumbs.js',
 //   'images.html': '../parsers/images.js'
