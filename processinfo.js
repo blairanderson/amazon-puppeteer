@@ -4,6 +4,7 @@ const parseReviews = require('./parsers/reviews').parse;
 const parseBuyBox = require('./parsers/buybox').parse;
 const parseImages = require('./parsers/images').parse;
 const parseBullets = require('./parsers/bullets').parse;
+const parseVariations = require('./parsers/twister').parse;
 
 module.exports = function(html) {
   const $ = cheerio.load(html);
@@ -16,6 +17,7 @@ module.exports = function(html) {
     reviews: parseReviews($),
     bullets: parseBullets($),
     aplus: parseAPlus($),
+    variations: parseVariations($)
     breadcrumbs: parseBreadCrumbs($)
   };
 };
