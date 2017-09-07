@@ -17,7 +17,7 @@ module.exports = function(html) {
     reviews: parseReviews($),
     bullets: parseBullets($),
     aplus: parseAPlus($),
-    variations: parseVariations($)
+    variations: parseVariations($),
     breadcrumbs: parseBreadCrumbs($)
   };
 };
