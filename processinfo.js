@@ -15,8 +15,6 @@ module.exports = function(html) {
   const $ = cheerio.load(html);
   const buybox = parseBuyBox($);
   log(parseBuyBox($));
-  const price = parsePrice($);
-  log(parsePrice($));
   const brand = parseBrand($);
   log(parseBrand($));
   const media = parseImages($);
@@ -34,7 +32,6 @@ module.exports = function(html) {
 
   return {
     buybox,
-    price,
     brand,
     media,
     reviews,
@@ -44,13 +41,6 @@ module.exports = function(html) {
     breadcrumbs
   };
 };
-
-function parsePrice($) {
-  const priceEl = $('#priceblock_ourprice');
-  return {
-    our_price: priceEl.text().trim()
-  };
-}
 
 function parseBrand($) {
   const brandEl = $('a#bylineInfo');

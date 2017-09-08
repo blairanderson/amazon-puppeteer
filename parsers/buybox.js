@@ -19,8 +19,16 @@ module.exports.parse = function($) {
       .replace('easy-to-open packaging', '')
   };
 
+  const priceEl = $('#priceblock_ourprice');
+  const currency = priceEl.text().trim();
+  const our_price = Number(currency.replace(/[^0-9\.-]+/g, ''));
+
   return {
     amazon,
-    merchantLink
+    merchantLink,
+    price: {
+      our_price,
+      currency
+    }
   };
 };
