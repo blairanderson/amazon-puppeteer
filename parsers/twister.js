@@ -14,16 +14,20 @@ module.exports.parse = function($) {
     };
   };
 
-  const styleTwister = $('#twister #variation_style_name ul li')
+  const style = $('#twister #variation_style_name ul li')
     .map(mapper)
     .get();
-  const sizeTwister = $('#twister #variation_size_name ul li')
+  const color = $('#twister #variation_color_name ul li')
+    .map(mapper)
+    .get();
+  const size = $('#twister #variation_size_name ul li')
     .map(mapper)
     .get();
 
   return {
-    style: styleTwister,
-    size: sizeTwister
+    style,
+    color,
+    size
   };
 };
 

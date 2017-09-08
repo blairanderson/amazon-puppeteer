@@ -8,29 +8,40 @@ const puppeteerArgs = {
   args: ['--no-sandbox', '--disable-setuid-sandbox']
 };
 
-async function fetchASIN(asin) {
-  const browser = await puppeteer.launch(puppeteerArgs);
-  const page = await browser.newPage();
-  console.log(asin);
-  const path = `https://www.amazon.com/dp/${asin}`;
-  await page.setViewport({ width: 1680, height: 895 });
-  console.log('viewport');
-  await page.setUserAgent(userAgent);
-  console.log('useragent');
-  await page.goto(path);
-  console.log('goto', path);
-  const content = await page.content();
-  console.log('content received');
-  const parsed = processInfo(content);
-  console.log('content parsed');
-  browser.close();
-  return Object.assign({ asin, path, timeNow: Date().toString() }, parsed);
+function log() {
+  if (process.env.LOG) {
+    console.log.apply(this, arguments);
+  }
+}
 
-  // fs.writeFile(`./${asin}.html`, content, function(err) {
-  //   if(err) {return console.log(err);}
-  //   console.log("The file was saved!");
-  // });
-  // await page.screenshot({path: `${asin}.png`, fullPage: true});
+async function fetchASIN(asin) {
+  try {
+    const browser = await puppeteer.launch(puppeteerArgs);
+    const page = await browser.newPage();
+    console.log(asin);
+    const path = `https://www.amazon.com/dp/${asin}`;
+    await page.setViewport({ width: 1680, height: 895 });
+    log('viewport');
+    await page.setUserAgent(userAgent);
+    log('useragent');
+    await page.goto(path);
+    log('goto', path);
+    const content = await page.content();
+    log('content downloaded');
+    if (process.env.SCREENSHOT) {
+      await page.screenshot({ path: `tmp/${asin}.png`, fullPage: true });
+      log('screenshot');
+    }
+    log('parsing started', Date().toString());
+    const parsed = processInfo(content);
+    log('content parsed', Date().toString());
+    browser.close();
+    return Object.assign({ asin, path, timeNow: Date().toString() }, parsed);
+  } catch (err) {
+    browser.close();
+    console.log('ERR', err);
+    return new Error(err);
+  }
 }
 
 module.exports = fetchASIN;

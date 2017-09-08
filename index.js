@@ -52,6 +52,7 @@ function asinController(req, res) {
       })
       .catch(function(error) {
         timer.done();
+        console.log('NOT FOUND', JSON.stringify(error));
         notFound(req, res);
       });
   } else {

@@ -6,19 +6,42 @@ const parseImages = require('./parsers/images').parse;
 const parseBullets = require('./parsers/bullets').parse;
 const parseVariations = require('./parsers/twister').parse;
 
+const log = function() {
+  if (process.env.LOG) {
+    console.log.apply(this, arguments);
+  }
+};
 module.exports = function(html) {
   const $ = cheerio.load(html);
+  const buybox = parseBuyBox($);
+  log(parseBuyBox($));
+  const price = parsePrice($);
+  log(parsePrice($));
+  const brand = parseBrand($);
+  log(parseBrand($));
+  const media = parseImages($);
+  log(parseImages($));
+  const reviews = parseReviews($);
+  log(parseReviews($));
+  const bullets = parseBullets($);
+  log(parseBullets($));
+  const aplus = parseAPlus($);
+  log(parseAPlus($));
+  const variations = parseVariations($);
+  log(parseVariations($));
+  const breadcrumbs = parseBreadCrumbs($);
+  log(parseBreadCrumbs($));
 
   return {
-    buybox: parseBuyBox($),
-    price: parsePrice($),
-    brand: parseBrand($),
-    media: parseImages($),
-    reviews: parseReviews($),
-    bullets: parseBullets($),
-    aplus: parseAPlus($),
-    variations: parseVariations($),
-    breadcrumbs: parseBreadCrumbs($)
+    buybox,
+    price,
+    brand,
+    media,
+    reviews,
+    bullets,
+    aplus,
+    variations,
+    breadcrumbs
   };
 };
 
