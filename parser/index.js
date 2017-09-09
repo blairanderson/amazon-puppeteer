@@ -7,7 +7,7 @@ const parseBullets = require('./bullets').parse;
 const parseVariations = require('./twister').parse;
 
 const log = function() {
-  if (process.env.LOG) {
+  if (process.env.LOG === true || process.env.LOG === 'true') {
     console.log.apply(this, arguments);
   }
 };
