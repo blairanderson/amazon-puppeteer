@@ -18,7 +18,7 @@ function testMe(func) {
         throw 'error reading testfile' + func;
       } else {
         const context = cheerio.load(testData);
-        const parser = require('../parsers/' + func + '.js');
+        const parser = require('../parser/' + func + '.js');
         const result = parser.parse(context);
         const expectation = parser.expectation;
         if (equal(result, expectation)) {

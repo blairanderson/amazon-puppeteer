@@ -14,7 +14,11 @@ const redis = process.env.REDIS_URL
 app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
 app.use(ignoreFavicon);
-app.get('/', notFound);
+app.get('/', function(req, res) {
+  res.status(200).json({
+    routes: ['/:asin?api_key=poopoo']
+  });
+});
 app.use('/img', express.static('tmp'));
 app.use(expressMiddlewareApikey(process.env.API_KEY));
 // app.get('/:asin', cache, asinController);
@@ -49,23 +53,30 @@ function asinController(req, res) {
       .then(function(data) {
         // seconds * minutes * hours
         const exp = 60 * 60 * 3; // 6 hours
-        redis.setex(asin, exp, JSON.stringify(data));
+        if (!data.error) {
+          redis.setex(asin, exp, JSON.stringify(data));
+        }
         res.json(Object.assign({ time: timer.done() }, data));
       })
       .catch(function(error) {
         timer.done();
         console.log('NOT FOUND', JSON.stringify(error));
-        notFound(req, res);
+        notFound(req, res, 'Caught in fetch', error);
       });
   } else {
     timer.done();
-    notFound(req, res);
+    notFound(
+      req,
+      res,
+      'did not pass regex',
+      'are you sure this passes ([A-Z0-9]{10})'
+    );
   }
 }
 
-function notFound(req, res) {
+function notFound(req, res, message, error) {
   res.status(404).json({
-    message: 'expected path is /ASIN1234567',
-    error: 'path not found, must include asin'
+    message,
+    error
   });
 }

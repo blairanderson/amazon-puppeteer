@@ -1,10 +1,10 @@
 const cheerio = require('cheerio');
-const parseBreadCrumbs = require('./parsers/breadcrumbs').parse;
-const parseReviews = require('./parsers/reviews').parse;
-const parseBuyBox = require('./parsers/buybox').parse;
-const parseImages = require('./parsers/images').parse;
-const parseBullets = require('./parsers/bullets').parse;
-const parseVariations = require('./parsers/twister').parse;
+const parseBreadCrumbs = require('./breadcrumbs').parse;
+const parseReviews = require('./reviews').parse;
+const parseBuyBox = require('./buybox').parse;
+const parseImages = require('./images').parse;
+const parseBullets = require('./bullets').parse;
+const parseVariations = require('./twister').parse;
 
 const log = function() {
   if (process.env.LOG) {

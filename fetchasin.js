@@ -1,12 +1,12 @@
 const puppeteer = require('puppeteer');
-const processInfo = require('./processinfo');
+const parseAmazonHTML = require('./parser');
 
 const userAgent =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36';
 
 const puppeteerArgs = {
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  headless: false,
+  // headless: false,
   slowMo: 250 // slow down by 250ms
 };
 
@@ -59,14 +59,8 @@ async function fetchASIN(asin) {
   try {
     const content = await page.content();
     log('content downloaded');
-  } catch (error) {
-    browser.close();
-    return { error };
-  }
-
-  try {
     log('parsing started', Date().toString());
-    const parsed = processInfo(content);
+    const parsed = parseAmazonHTML(content);
     log('content parsed', Date().toString());
     browser.close();
     return Object.assign(newData, parsed);
