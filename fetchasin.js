@@ -5,7 +5,9 @@ const userAgent =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36';
 
 const puppeteerArgs = {
-  args: ['--no-sandbox', '--disable-setuid-sandbox']
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  headless: false,
+  slowMo: 250 // slow down by 250ms
 };
 
 const host =
@@ -13,15 +15,16 @@ const host =
     ? 'http://localhost:5000'
     : 'https://puppeteertest.herokuapp.com';
 
-function log() {
+const log = (...args) => {
   if (process.env.LOG) {
-    console.log.apply(this, arguments);
+    console.log(...args);
   }
-}
+};
 
 async function fetchASIN(asin) {
   const browser = await puppeteer.launch(puppeteerArgs);
   const page = await browser.newPage();
+  page.on('console', (...args) => console.log('PAGE LOG:', ...args));
   let screenshot = false;
   console.log(asin);
   const path = `https://www.amazon.com/dp/${asin}`;
@@ -40,8 +43,9 @@ async function fetchASIN(asin) {
     return { error };
   }
 
-  if (process.env.SCREENSHOT) {
+  if (process.env.SCREENSHOT === 'true' || process.env.SCREENSHOT === true) {
     try {
+      log('screenshot');
       await page.screenshot({ path: `tmp/${asin}.png`, fullPage: true });
       newData['screenshot'] = `${host}/img/${asin}.png`;
       log('screenshot:', newData['screenshot']);
