@@ -17,11 +17,23 @@ module.exports.parse = function($) {
   const style = $('#twister #variation_style_name ul li')
     .map(mapper)
     .get();
-  const color = $('#twister #variation_color_name ul li')
-    .map(mapper)
-    .get();
   const size = $('#twister #variation_size_name ul li')
     .map(mapper)
+    .get();
+
+  const color = $('#twister #variation_color_name ul li')
+    .map(function(index, el) {
+      const asin = $(el).attr('data-defaultasin');
+      const url = $(el).attr('data-dp-url');
+      const text = $(el)
+        .find('img')
+        .attr('alt');
+      return {
+        text,
+        asin,
+        url
+      };
+    })
     .get();
 
   return {
@@ -45,6 +57,7 @@ module.exports.expectation = {
     },
     { text: 'Low Voltage Bracket', asin: 'B003JQL0S8', url: '' }
   ],
+  color: [],
   size: [
     {
       text: '1 Pack',
