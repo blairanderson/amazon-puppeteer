@@ -39,7 +39,6 @@ module.exports.parse = function($) {
     .get();
 
   const exists = style.length + color.length + size.length > 0;
-  const complex = style.length > 0 && color.length > 0 && size.length > 0;
   const totalCombinations =
     (style.length || 1) * (color.length || 1) * (size.length || 1);
 
@@ -51,7 +50,6 @@ module.exports.parse = function($) {
 
   return {
     exists,
-    complex,
     totalCombinations,
     data
   };
@@ -59,7 +57,6 @@ module.exports.parse = function($) {
 
 module.exports.expectation = {
   exists: true,
-  complex: false,
   totalCombinations: 4,
   data: {
     style: [],
