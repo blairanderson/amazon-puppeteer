@@ -44,7 +44,6 @@ async function fetchASIN(asin) {
     const parsed = processInfo(content);
     log('content parsed', Date().toString());
     browser.close();
-
     return Object.assign(newData, parsed);
   } catch (err) {
     browser.close();
