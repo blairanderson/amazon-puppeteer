@@ -27,7 +27,8 @@ module.exports.parse = function($) {
       const url = $(el).attr('data-dp-url');
       const text = $(el)
         .find('img')
-        .attr('alt');
+        .attr('alt')
+        .trim();
       return {
         text,
         asin,
@@ -44,31 +45,24 @@ module.exports.parse = function($) {
 };
 
 module.exports.expectation = {
-  style: [
+  style: [],
+  color: [
+    { text: 'Black', asin: 'B003O85DEI', url: '' },
     {
-      text: 'w/ Wall Plate (1-Gang)',
-      asin: '',
-      url: '/dp/B007ST09TI/ref=twister_B00OLG42JY'
+      text: 'Bronze',
+      asin: 'B003O85DES',
+      url: '/dp/B003O85DES/ref=twister_B01N9KALZ9?_encoding=UTF8&psc=1'
     },
     {
-      text: 'w/ Wall Plate (2-Gang)',
-      asin: '',
-      url: '/dp/B007ST09T8/ref=twister_B00OLG42JY'
+      text: 'Green',
+      asin: 'B003O85DF2',
+      url: '/dp/B003O85DF2/ref=twister_B01N9KALZ9?_encoding=UTF8&psc=1'
     },
-    { text: 'Low Voltage Bracket', asin: 'B003JQL0S8', url: '' }
+    {
+      text: 'White',
+      asin: 'B003O85DFC',
+      url: '/dp/B003O85DFC/ref=twister_B01N9KALZ9?_encoding=UTF8&psc=1'
+    }
   ],
-  color: [],
-  size: [
-    {
-      text: '1 Pack',
-      asin: 'B000UEAJWU',
-      url: '/dp/B000UEAJWU/ref=twister_B00OLG42JY?_encoding=UTF8&psc=1'
-    },
-    {
-      text: '2 Pack',
-      asin: '',
-      url: '/dp/B007ST09TI/ref=twister_B00OLG42JY'
-    },
-    { text: '10 Pack', asin: 'B003JQL0S8', url: '' }
-  ]
+  size: []
 };
