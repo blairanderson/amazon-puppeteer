@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const parseAmazonHTML = require('./parser');
+const parse = require('amazon-html-to-json').parse;
 
 const userAgent =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36';
@@ -60,7 +60,7 @@ async function fetchASIN(asin) {
     const content = await page.content();
     log('content downloaded');
     log('parsing started', Date().toString());
-    const parsed = parseAmazonHTML(content);
+    const parsed = parse(content);
     log('content parsed', Date().toString());
     browser.close();
     return Object.assign(newData, parsed);

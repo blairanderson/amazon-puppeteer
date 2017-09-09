@@ -21,27 +21,29 @@ app.get('/', function(req, res) {
 });
 app.use('/img', express.static('tmp'));
 app.use(expressMiddlewareApikey(process.env.API_KEY));
-// app.get('/:asin', cache, asinController);
-app.get('/:asin', asinController);
-
+app.get('/:asin', cache, asinController);
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
 function cache(req, res, next) {
-  const { asin } = req.params;
-  const timer = start();
-  redis.get(asin, function(err, data) {
-    if (err) throw err;
+  if (process.env.CACHE === 'true' || process.env.CACHE === true) {
+    const { asin } = req.params;
+    const timer = start();
+    redis.get(asin, function(err, data) {
+      if (err) throw err;
 
-    if (data != null) {
-      console.log('cache-hit', asin);
-      res.json(Object.assign({ time: timer.done() }, JSON.parse(data)));
-    } else {
-      console.log('cache-miss', asin);
-      next();
-    }
-  });
+      if (data != null) {
+        console.log('cache-hit', asin);
+        res.json(Object.assign({ time: timer.done() }, JSON.parse(data)));
+      } else {
+        console.log('cache-miss', asin);
+        next();
+      }
+    });
+  } else {
+    next();
+  }
 }
 
 function asinController(req, res) {
