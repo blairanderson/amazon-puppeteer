@@ -18,8 +18,10 @@ async function fetchASIN(asin) {
   try {
     const browser = await puppeteer.launch(puppeteerArgs);
     const page = await browser.newPage();
+    let screenshot = false;
     console.log(asin);
     const path = `https://www.amazon.com/dp/${asin}`;
+    const newData = { asin, path, timeNow: Date().toString() };
     await page.setViewport({ width: 1680, height: 895 });
     log('viewport');
     await page.setUserAgent(userAgent);
@@ -30,13 +32,17 @@ async function fetchASIN(asin) {
     log('content downloaded');
     if (process.env.SCREENSHOT) {
       await page.screenshot({ path: `tmp/${asin}.png`, fullPage: true });
+      newData['screenshot'] = `${process.env.NODE_ENV === 'development'
+        ? 'localhost:5000'
+        : 'https://puppeteertest.herokuapp.com'}/img/${asin}.png`;
       log('screenshot');
     }
     log('parsing started', Date().toString());
     const parsed = processInfo(content);
     log('content parsed', Date().toString());
     browser.close();
-    return Object.assign({ asin, path, timeNow: Date().toString() }, parsed);
+
+    return Object.assign(newData, parsed);
   } catch (err) {
     browser.close();
     console.log('ERR', err);

@@ -15,6 +15,7 @@ app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
 app.use(ignoreFavicon);
 app.get('/', notFound);
+app.use('/img', express.static('tmp'));
 app.use(expressMiddlewareApikey(process.env.API_KEY));
 app.get('/:asin', cache, asinController);
 
@@ -36,6 +37,15 @@ function cache(req, res, next) {
       next();
     }
   });
+}
+
+function showScreenshot(req, res) {
+  const { asin } = req.params;
+  if (fs.existsSync(`/tmp/${asin}.png`)) {
+    console.log('Found file');
+  } else {
+    notFound(req, res);
+  }
 }
 
 function asinController(req, res) {
