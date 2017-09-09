@@ -25,8 +25,8 @@ function testMe(func) {
           console.log('func:', func, 'success!!!');
         } else {
           console.log('func:', func, 'failure...');
-          console.log('expected:', expectation);
-          console.log('got:', result);
+          console.log('expected:', JSON.stringify(expectation, null, 4));
+          console.log('got:', JSON.stringify(result, null, 4));
         }
       }
     }
