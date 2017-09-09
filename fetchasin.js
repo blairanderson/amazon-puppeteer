@@ -34,26 +34,31 @@ async function fetchASIN(asin) {
   try {
     await page.goto(path);
     log('goto', path);
-  } catch (e) {
+  } catch (error) {
     log('page.goto ERROR', JSON.stringify(e));
     browser.close();
-    return {};
+    return { error };
   }
 
-  try {
-    if (process.env.SCREENSHOT) {
+  if (process.env.SCREENSHOT) {
+    try {
       await page.screenshot({ path: `tmp/${asin}.png`, fullPage: true });
       newData['screenshot'] = `${host}/img/${asin}.png`;
       log('screenshot:', newData['screenshot']);
+    } catch (error) {
+      log('screenshot error');
+      browser.close();
+      return { error };
     }
-  } catch (err) {
-    log('screenshot error');
-    browser.close();
-    return {};
   }
 
-  const content = await page.content();
-  log('content downloaded');
+  try {
+    const content = await page.content();
+    log('content downloaded');
+  } catch (error) {
+    browser.close();
+    return { error };
+  }
 
   try {
     log('parsing started', Date().toString());
@@ -61,10 +66,10 @@ async function fetchASIN(asin) {
     log('content parsed', Date().toString());
     browser.close();
     return Object.assign(newData, parsed);
-  } catch (err) {
+  } catch (error) {
     browser.close();
-    console.log('ERR', err);
-    return {};
+    console.log('ERR', error);
+    return { error };
   }
 }
 
