@@ -8,6 +8,11 @@ const puppeteerArgs = {
   args: ['--no-sandbox', '--disable-setuid-sandbox']
 };
 
+const host =
+  process.env.NODE_ENV === 'development'
+    ? 'localhost:5000'
+    : 'https://puppeteertest.herokuapp.com';
+
 function log() {
   if (process.env.LOG) {
     console.log.apply(this, arguments);
@@ -32,10 +37,8 @@ async function fetchASIN(asin) {
     log('content downloaded');
     if (process.env.SCREENSHOT) {
       await page.screenshot({ path: `tmp/${asin}.png`, fullPage: true });
-      newData['screenshot'] = `${process.env.NODE_ENV === 'development'
-        ? 'localhost:5000'
-        : 'https://puppeteertest.herokuapp.com'}/img/${asin}.png`;
-      log('screenshot');
+      newData['screenshot'] = `${host}/img/${asin}.png`;
+      log('screenshot:', newData['screenshot']);
     }
     log('parsing started', Date().toString());
     const parsed = processInfo(content);
