@@ -10,7 +10,7 @@ const puppeteerArgs = {
 
 const host =
   process.env.NODE_ENV === 'development'
-    ? 'localhost:5000'
+    ? 'http://localhost:5000'
     : 'https://puppeteertest.herokuapp.com';
 
 function log() {
@@ -20,29 +20,42 @@ function log() {
 }
 
 async function fetchASIN(asin) {
+  const browser = await puppeteer.launch(puppeteerArgs);
+  const page = await browser.newPage();
+  let screenshot = false;
+  console.log(asin);
+  const path = `https://www.amazon.com/dp/${asin}`;
+  const newData = { asin, path, timeNow: Date().toString() };
+  await page.setViewport({ width: 1680, height: 895 });
+  log('viewport');
+  await page.setUserAgent(userAgent);
+  log('useragent');
+
   try {
-    const browser = await puppeteer.launch(puppeteerArgs);
-    const page = await browser.newPage();
-    let screenshot = false;
-    console.log(asin);
-    const path = `https://www.amazon.com/dp/${asin}`;
-    const newData = { asin, path, timeNow: Date().toString() };
-    await page.setViewport({ width: 1680, height: 895 });
-    log('viewport');
-    await page.setUserAgent(userAgent);
-    log('useragent');
     await page.goto(path);
     log('goto', path);
+  } catch (e) {
+    log('page.goto ERROR', JSON.stringify(e));
+    browser.close();
+    return {};
+  }
 
+  try {
     if (process.env.SCREENSHOT) {
       await page.screenshot({ path: `tmp/${asin}.png`, fullPage: true });
       newData['screenshot'] = `${host}/img/${asin}.png`;
       log('screenshot:', newData['screenshot']);
     }
+  } catch (err) {
+    log('screenshot error');
+    browser.close();
+    return {};
+  }
 
-    const content = await page.content();
-    log('content downloaded');
+  const content = await page.content();
+  log('content downloaded');
 
+  try {
     log('parsing started', Date().toString());
     const parsed = processInfo(content);
     log('content parsed', Date().toString());
@@ -51,7 +64,7 @@ async function fetchASIN(asin) {
   } catch (err) {
     browser.close();
     console.log('ERR', err);
-    return new Error(err);
+    return {};
   }
 }
 

@@ -40,15 +40,6 @@ function cache(req, res, next) {
   });
 }
 
-function showScreenshot(req, res) {
-  const { asin } = req.params;
-  if (fs.existsSync(`/tmp/${asin}.png`)) {
-    console.log('Found file');
-  } else {
-    notFound(req, res);
-  }
-}
-
 function asinController(req, res) {
   const timer = start();
   const { asin } = req.params;
