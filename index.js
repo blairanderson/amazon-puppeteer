@@ -17,6 +17,7 @@ app.use(ignoreFavicon);
 app.get('/', notFound);
 app.use('/img', express.static('tmp'));
 app.use(expressMiddlewareApikey(process.env.API_KEY));
+// app.get('/:asin', cache, asinController);
 app.get('/:asin', asinController);
 
 app.listen(app.get('port'), function() {

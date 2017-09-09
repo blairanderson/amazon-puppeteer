@@ -33,13 +33,16 @@ async function fetchASIN(asin) {
     log('useragent');
     await page.goto(path);
     log('goto', path);
-    const content = await page.content();
-    log('content downloaded');
+
     if (process.env.SCREENSHOT) {
       await page.screenshot({ path: `tmp/${asin}.png`, fullPage: true });
       newData['screenshot'] = `${host}/img/${asin}.png`;
       log('screenshot:', newData['screenshot']);
     }
+
+    const content = await page.content();
+    log('content downloaded');
+
     log('parsing started', Date().toString());
     const parsed = processInfo(content);
     log('content parsed', Date().toString());
