@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "amazon-html-to-json": "https://github.com/blairanderson/amazon-html-to-json.git#d9b3737d667168705c400430d1ae60b3634e9713",
+    "amazon-html-to-json": "https://github.com/blairanderson/amazon-html-to-json.git#a3a2964d35be5c7eae742898311a19df9c6c3b17",
     "cheerio": "^1.0.0-rc.2",
     "deep-equal": "^1.0.1",
     "dotenv": "^4.0.0",
