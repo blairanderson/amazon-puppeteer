@@ -3,9 +3,6 @@ const express = require('express');
 const app = express();
 const fetchASIN = require('./fetchasin.js');
 const start = require('./utils').start;
-const ignoreFavicon = require('./utils').ignoreFavicon;
-const expressMiddlewareApikey = require('express-middleware-apikey');
-
 const rd = require('redis').createClient;
 const redis = process.env.REDIS_URL
   ? rd(process.env.REDIS_URL)
@@ -13,14 +10,16 @@ const redis = process.env.REDIS_URL
 
 app.set('port', process.env.PORT || 5000);
 app.use(express.static(__dirname + '/public'));
-app.use(ignoreFavicon);
+app.use(require('./utils').ignoreFavicon);
+
 app.get('/', function(req, res) {
   res.status(200).json({
     routes: ['/:asin?api_key=poopoo']
   });
 });
+
 app.use('/img', express.static('tmp'));
-app.use(expressMiddlewareApikey(process.env.API_KEY));
+app.use(require('express-middleware-apikey')(process.env.API_KEY.split(',')));
 app.get('/:asin', cache, asinController);
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
