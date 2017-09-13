@@ -38,7 +38,7 @@ async function fetchASIN(asin) {
     await page.goto(path);
     log('goto', path);
   } catch (error) {
-    log('page.goto ERROR', JSON.stringify(e));
+    log('page.goto ERROR', JSON.stringify(error));
     browser.close();
     return { error };
   }
@@ -66,8 +66,8 @@ async function fetchASIN(asin) {
     return Object.assign(newData, parsed);
   } catch (error) {
     browser.close();
-    console.log('ERR', error);
-    return { error };
+    console.log('ERR', error.toString(), error.stack);
+    return { error: error.toString(), stack: error.stack.split('\n') };
   }
 }
 
