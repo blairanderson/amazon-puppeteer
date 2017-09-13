@@ -33,9 +33,9 @@ agent-base@^4.1.0:
     cheerio "^1.0.0-rc.2"
     deep-equal "^1.0.1"
 
-"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#a3a2964d35be5c7eae742898311a19df9c6c3b17":
+"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#8fb0d420ed90657ede931ba6874474812148c6c3":
   version "1.0.0"
-  resolved "https://github.com/blairanderson/amazon-html-to-json.git#a3a2964d35be5c7eae742898311a19df9c6c3b17"
+  resolved "https://github.com/blairanderson/amazon-html-to-json.git#8fb0d420ed90657ede931ba6874474812148c6c3"
   dependencies:
     babel-runtime "^6.6.1"
     cheerio "^1.0.0-rc.2"
