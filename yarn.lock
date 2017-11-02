@@ -34,13 +34,14 @@ agent-base@^4.1.0:
     deep-equal "^1.0.1"
     lodash "^4.17.4"
 
-"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#8fb0d420ed90657ede931ba6874474812148c6c3":
-  version "1.0.0"
-  resolved "https://github.com/blairanderson/amazon-html-to-json.git#8fb0d420ed90657ede931ba6874474812148c6c3"
+"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#6817f41296000f30e0ba52fac8a3b13f77c5adca":
+  version "1.0.1"
+  resolved "https://github.com/blairanderson/amazon-html-to-json.git#6817f41296000f30e0ba52fac8a3b13f77c5adca"
   dependencies:
     babel-runtime "^6.6.1"
     cheerio "^1.0.0-rc.2"
     deep-equal "^1.0.1"
+    lodash "^4.17.4"
 
 array-flatten@1.1.1:
   version "1.1.1"
