@@ -35,7 +35,11 @@ async function fetchASIN(asin) {
   log('useragent');
 
   try {
-    await page.goto(path);
+    var resp = await page.goto(path);
+    if (!resp.ok) {
+      browser.close();
+      return { status: resp.status };
+    }
     log('goto', path);
   } catch (error) {
     log('page.goto ERROR', JSON.stringify(error));
