@@ -60,11 +60,24 @@ async function fetchASIN(asin) {
     }
   }
 
+  function fetchImages() {
+    return new Promise((resolve, reject) => {
+      P.when('ImageBlockATF').execute(function(images) {
+        if (images) {
+          resolve(images);
+        } else {
+          reject('nope');
+        }
+      });
+    });
+  }
+
   try {
+    const images = await page.evaluate(fetchImages);
     const content = await page.content();
     log('content downloaded');
     log('parsing started', Date().toString());
-    const parsed = parse(content);
+    const parsed = parse(content, images);
     log('content parsed', Date().toString());
     browser.close();
     return Object.assign(newData, parsed);

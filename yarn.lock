@@ -25,18 +25,18 @@ agent-base@^4.1.0:
   dependencies:
     es6-promisify "^5.0.0"
 
-"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#6817f41296000f30e0ba52fac8a3b13f77c5adca":
-  version "1.0.1"
-  resolved "https://github.com/blairanderson/amazon-html-to-json.git#6817f41296000f30e0ba52fac8a3b13f77c5adca"
+"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#95e24b91032a78ff1849ac4b083dabdd068d6af6":
+  version "1.0.2"
+  resolved "https://github.com/blairanderson/amazon-html-to-json.git#95e24b91032a78ff1849ac4b083dabdd068d6af6"
   dependencies:
     babel-runtime "^6.6.1"
     cheerio "^1.0.0-rc.2"
     deep-equal "^1.0.1"
     lodash "^4.17.4"
 
-"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#bfe4acf0f318d3e3406f1ff272ec3aec3313677f":
+"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#ada43b748eaa44c1ffbd6e39b53379e67abe4b66":
   version "1.0.2"
-  resolved "https://github.com/blairanderson/amazon-html-to-json.git#bfe4acf0f318d3e3406f1ff272ec3aec3313677f"
+  resolved "https://github.com/blairanderson/amazon-html-to-json.git#ada43b748eaa44c1ffbd6e39b53379e67abe4b66"
   dependencies:
     babel-runtime "^6.6.1"
     cheerio "^1.0.0-rc.2"
