@@ -26,6 +26,7 @@ async function fetchASIN(asin) {
   const page = await browser.newPage();
   page.on('console', (...args) => console.log('PAGE LOG:', ...args));
   let screenshot = false;
+  let images = false;
   console.log(asin);
   const path = `https://www.amazon.com/dp/${asin}`;
   const newData = { asin, path, timeNow: Date().toString() };
@@ -62,18 +63,27 @@ async function fetchASIN(asin) {
 
   function fetchImages() {
     return new Promise((resolve, reject) => {
-      P.when('ImageBlockATF').execute(function(images) {
-        if (images) {
-          resolve(images);
-        } else {
-          reject('nope');
-        }
-      });
+      if (window.P) {
+        P.when('ImageBlockATF').execute(function(dat) {
+          if (dat) {
+            resolve(dat);
+          } else {
+            reject('nope');
+          }
+        });
+      } else {
+        reject('nope')
+      }
     });
   }
 
   try {
-    const images = await page.evaluate(fetchImages);
+    images = await page.evaluate(fetchImages);
+  } catch (e) {
+    console.log(e);
+  }
+  try {
+
     const content = await page.content();
     log('content downloaded');
     log('parsing started', Date().toString());

@@ -9,9 +9,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "amazon-html-to-json": "https://github.com/blairanderson/amazon-html-to-json.git#ada43b748eaa44c1ffbd6e39b53379e67abe4b66",
+    "amazon-html-to-json": "https://github.com/blairanderson/amazon-html-to-json.git#2c868dc1fabc3472fd3dea7cc1203d3fa6d4e229",
+    "async-waterfall": "^0.1.5",
     "cheerio": "^1.0.0-rc.2",
     "deep-equal": "^1.0.1",
+    "deep-object-diff": "^1.0.4",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "express-middleware-apikey": "^1.0.2",

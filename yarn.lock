@@ -25,9 +25,9 @@ agent-base@^4.1.0:
   dependencies:
     es6-promisify "^5.0.0"
 
-"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#95e24b91032a78ff1849ac4b083dabdd068d6af6":
+"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#2c868dc1fabc3472fd3dea7cc1203d3fa6d4e229":
   version "1.0.2"
-  resolved "https://github.com/blairanderson/amazon-html-to-json.git#95e24b91032a78ff1849ac4b083dabdd068d6af6"
+  resolved "https://github.com/blairanderson/amazon-html-to-json.git#2c868dc1fabc3472fd3dea7cc1203d3fa6d4e229"
   dependencies:
     babel-runtime "^6.6.1"
     cheerio "^1.0.0-rc.2"
@@ -46,6 +46,10 @@ agent-base@^4.1.0:
 array-flatten@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
+
+async-waterfall@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/async-waterfall/-/async-waterfall-0.1.5.tgz#398bd48b0eac5d40ffbe400fe9e37a53ba966dae"
 
 babel-runtime@^6.6.1:
   version "6.26.0"
@@ -144,6 +148,10 @@ debug@2.6.8, debug@^2.4.1, debug@^2.6.8:
 deep-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
+
+deep-object-diff@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/deep-object-diff/-/deep-object-diff-1.0.4.tgz#ee4c93b4a9da2962a568964c935a1989a416f9c4"
 
 deferred-leveldown@~1.2.1:
   version "1.2.2"
