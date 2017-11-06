@@ -38,7 +38,7 @@ async function fetchASIN(asin) {
     var resp = await page.goto(path);
     if (!resp.ok) {
       browser.close();
-      return { status: resp.status };
+      return { status: resp.status, error: `ASIN NOT OK. ${resp.status}` };
     }
     log('goto', path);
   } catch (error) {
