@@ -1,25 +1,7 @@
 const puppeteer = require('puppeteer');
+const cheerio = require('cheerio');
+const { puppeteerArgs, userAgent, host, log } = require('./puppeteerargs.js');
 const parse = require('amazon-html-to-json').parse;
-
-const userAgent =
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36';
-
-const puppeteerArgs = {
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  // headless: false,
-  slowMo: 250 // slow down by 250ms
-};
-
-const host =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5000'
-    : 'https://puppeteertest.herokuapp.com';
-
-const log = (...args) => {
-  if (process.env.LOG) {
-    console.log(...args);
-  }
-};
 
 async function fetchASIN(asin) {
   const browser = await puppeteer.launch(puppeteerArgs);
@@ -28,10 +10,12 @@ async function fetchASIN(asin) {
   let screenshot = false;
   let images = false;
   console.log(asin);
+
   const path = `https://www.amazon.com/dp/${asin}`;
   const newData = { asin, path, timeNow: Date().toString() };
   await page.setViewport({ width: 1680, height: 895 });
   log('viewport');
+
   await page.setUserAgent(userAgent);
   log('useragent');
 
@@ -45,7 +29,7 @@ async function fetchASIN(asin) {
   } catch (error) {
     log('page.goto ERROR', JSON.stringify(error));
     browser.close();
-    return { error };
+    return { error: error.toString(), stack: error.stack.split('\n') };
   }
 
   if (process.env.SCREENSHOT === 'true' || process.env.SCREENSHOT === true) {
@@ -57,7 +41,7 @@ async function fetchASIN(asin) {
     } catch (error) {
       log('screenshot error');
       browser.close();
-      return { error };
+      return { error: error.toString(), stack: error.stack.split('\n') };
     }
   }
 
@@ -82,11 +66,13 @@ async function fetchASIN(asin) {
   } catch (e) {
     console.log(e);
   }
+
   try {
     const content = await page.content();
     log('content downloaded');
     log('parsing started', Date().toString());
-    const parsed = parse(content, images);
+    const $ = cheerio.load(content);
+    const parsed = parse($, images);
     log('content parsed', Date().toString());
     browser.close();
     return Object.assign(newData, parsed);

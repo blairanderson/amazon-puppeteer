@@ -31,6 +31,7 @@ app.listen(app.get('port'), function() {
 });
 
 function asinCache(req, res, next) {
+  console.log('cache');
   if (process.env.CACHE === 'true' || process.env.CACHE === true) {
     const { asin } = req.params;
     const timer = start();
@@ -70,6 +71,8 @@ function queryCache(req, res, next) {
   //   next();
   // }
 }
+
+// const { request } = require('curlrequest');
 
 function asinController(req, res) {
   const timer = start();
@@ -127,7 +130,7 @@ function queryController(req, res) {
     notFound(
       req,
       res,
-      'Must include keywords AND asin.',
+      'Query must include keywords AND asin.',
       'Are you sure this passes ([A-Z0-9]{10})'
     );
   }

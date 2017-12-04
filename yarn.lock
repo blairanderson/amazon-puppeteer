@@ -34,12 +34,11 @@ agent-base@^4.1.0:
     deep-equal "^1.0.1"
     lodash "^4.17.4"
 
-"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#ada43b748eaa44c1ffbd6e39b53379e67abe4b66":
+"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#a50d4cd133a5ac2f5dd1a7e9c2d1626fc5e01836":
   version "1.0.2"
-  resolved "https://github.com/blairanderson/amazon-html-to-json.git#ada43b748eaa44c1ffbd6e39b53379e67abe4b66"
+  resolved "https://github.com/blairanderson/amazon-html-to-json.git#a50d4cd133a5ac2f5dd1a7e9c2d1626fc5e01836"
   dependencies:
     babel-runtime "^6.6.1"
-    cheerio "^1.0.0-rc.2"
     deep-equal "^1.0.1"
     lodash "^4.17.4"
 
@@ -132,6 +131,10 @@ css-select@~1.2.0:
 css-what@2.1:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/css-what/-/css-what-2.1.0.tgz#9467d032c38cfaefb9f2d79501253062f87fa1bd"
+
+curlrequest@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/curlrequest/-/curlrequest-1.0.1.tgz#cd3d8e04e81d7996b0a1cd9716cb09d50b41d50f"
 
 debug@2.2.0:
   version "2.2.0"
@@ -555,9 +558,9 @@ prr@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"
 
-puppeteer@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-0.10.1.tgz#a26f7012ff0fcc9f21c70ff9e2a8c60cba568a83"
+"puppeteer@https://github.com/GoogleChrome/puppeteer.git":
+  version "1.0.0-rc"
+  resolved "https://github.com/GoogleChrome/puppeteer.git#2becd156d0b25ad3fe4f7b91101b32aead70bd96"
   dependencies:
     debug "^2.6.8"
     extract-zip "^1.6.5"

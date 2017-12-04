@@ -9,9 +9,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "amazon-html-to-json": "https://github.com/blairanderson/amazon-html-to-json.git#2c868dc1fabc3472fd3dea7cc1203d3fa6d4e229",
+    "amazon-html-to-json": "https://github.com/blairanderson/amazon-html-to-json.git#a50d4cd133a5ac2f5dd1a7e9c2d1626fc5e01836",
     "async-waterfall": "^0.1.5",
     "cheerio": "^1.0.0-rc.2",
+    "curlrequest": "^1.0.1",
     "deep-equal": "^1.0.1",
     "deep-object-diff": "^1.0.4",
     "dotenv": "^4.0.0",
@@ -20,7 +21,7 @@
     "levelup": "^1.3.9",
     "npm-starter": "https://github.com/blairanderson/amazon-html-to-json",
     "performance-now": "^2.1.0",
-    "puppeteer": "^0.10.1",
+    "puppeteer": "https://github.com/GoogleChrome/puppeteer.git",
     "redis": "^2.8.0",
     "redisdown": "^0.1.12"
   }
