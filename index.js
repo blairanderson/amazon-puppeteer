@@ -23,7 +23,9 @@ app.get('/', function(req, res) {
 });
 
 app.use('/img', express.static('tmp'));
-app.use(require('express-middleware-apikey')(process.env.API_KEY.split(',')));
+app.use(
+  require('express-middleware-apikey')(process.env.PUPP_API_KEY.split(','))
+);
 app.get('/s', queryCache, queryController);
 app.get('/:asin', asinCache, asinController);
 app.listen(app.get('port'), function() {
