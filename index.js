@@ -4,6 +4,7 @@ const app = express();
 const { fetchASIN } = require('./fetchasin.js');
 const { fetchQuery } = require('./fetchquery.js');
 const start = require('./utils').start;
+const expiration = 60 * 60 * 24;
 const rd = require('redis').createClient;
 const redis = process.env.REDIS_URL
   ? rd(process.env.REDIS_URL)
@@ -84,9 +85,8 @@ function asinController(req, res) {
     fetchASIN(asin)
       .then(function(data) {
         // seconds * minutes * hours
-        const exp = 60 * 60 * 3; // 6 hours
         if (!data.error) {
-          redis.setex(asin, exp, JSON.stringify(data));
+          redis.setex(asin, expiration, JSON.stringify(data));
         }
         res.json(Object.assign({ time: timer.done() }, data));
       })
