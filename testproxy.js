@@ -15,9 +15,7 @@ const puppeteer = require('puppeteer');
   });
 
   page.on('console', (...args) => console.log('PAGE LOG:', ...args));
-  // const path = `https://www.andersonassociates.net/`;
-  const asin = 'B008E338FY';
-  const path = `https://www.amazon.com/dp/${asin}`;
+  const path = `https://www.andersonassociates.net/`;
   await page.setViewport({ width: 1680, height: 895 });
 
   try {
