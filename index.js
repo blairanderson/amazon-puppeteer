@@ -77,10 +77,17 @@ function queryCache(req, res, next) {
 
 // const { request } = require('curlrequest');
 
+function succcr(data) {
+  console.log(JSON.stringify(data, null, 4));
+}
+function errrrno(error) {
+  console.log(error.stack.split('\n'));
+}
+// fetchASIN('B008E338FY').then(succcr).catch(errrrno);
+
 function asinController(req, res) {
   const timer = start();
   const { asin } = req.params;
-
   if (asin.match(new RegExp('([A-Z0-9]{10})'))) {
     fetchASIN(asin)
       .then(function(data) {
@@ -92,8 +99,8 @@ function asinController(req, res) {
       })
       .catch(function(error) {
         timer.done();
-        console.log('NOT FOUND', JSON.stringify(error));
-        notFound(req, res, 'Caught in fetch', error);
+        console.log('NOT FOUND', error.stack.split('\n'));
+        notFound(req, res, 'Caught in fetch', error.stack.split('\n'));
       });
   } else {
     timer.done();
