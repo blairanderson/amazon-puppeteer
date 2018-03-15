@@ -6,7 +6,11 @@ const parse = require('amazon-html-to-json').parse;
 async function fetchASIN(asin) {
   const browser = await puppeteer.launch({
     ignoreHTTPSErrors: true,
-    args: ['--proxy-server=proxy.crawlera.com:8010']
+    args: [
+      '--proxy-server=proxy.crawlera.com:8010',
+      '--no-sandbox',
+      '--disable-setuid-sandbox'
+    ]
   });
   const page = await browser.newPage();
   await page.setExtraHTTPHeaders({
