@@ -4,8 +4,17 @@ const { puppeteerArgs, userAgent, host, log } = require('./puppeteerargs.js');
 const parse = require('amazon-html-to-json').parse;
 
 async function fetchASIN(asin) {
-  const browser = await puppeteer.launch(puppeteerArgs);
+  const browser = await puppeteer.launch({
+    ignoreHTTPSErrors: true,
+    args: ['--proxy-server=proxy.crawlera.com:8010']
+  });
   const page = await browser.newPage();
+  await page.setExtraHTTPHeaders({
+    'Proxy-Authorization':
+      'Basic ' +
+      Buffer.from(`${process.env.CRAWLERA_APIKEY}:`).toString('base64')
+  });
+
   page.on('console', (...args) => console.log('PAGE LOG:', ...args));
   let screenshot = false;
   let images = false;
@@ -15,12 +24,18 @@ async function fetchASIN(asin) {
   const newData = { asin, path, timeNow: Date().toString() };
   await page.setViewport({ width: 1680, height: 895 });
   log('viewport');
-
   await page.setUserAgent(userAgent);
-  log('useragent');
+  log('useragent', userAgent);
 
   try {
-    var resp = await page.goto(path);
+    console.log('path', path);
+    var start = +new Date();
+    var resp = await page.goto(path, {
+      timeout: 0,
+      waitUntil: 'domcontentloaded'
+    });
+    var end = +new Date();
+    console.log('start-end-diff', (end - start) / 1000);
     if (!resp.ok) {
       browser.close();
       return { status: resp.status, error: `ASIN NOT OK. ${resp.status}` };

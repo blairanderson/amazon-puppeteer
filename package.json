@@ -22,7 +22,7 @@
     "npm-starter": "https://github.com/blairanderson/amazon-html-to-json",
     "performance-now": "^2.1.0",
     "potrace": "^2.1.1",
-    "puppeteer": "https://github.com/GoogleChrome/puppeteer.git",
+    "puppeteer": "^1.1.1-next.1521139956274",
     "redis": "^2.8.0",
     "redisdown": "^0.1.12"
   }

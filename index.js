@@ -34,13 +34,12 @@ app.listen(app.get('port'), function() {
 });
 
 function asinCache(req, res, next) {
-  console.log('cache');
   if (process.env.CACHE === 'true' || process.env.CACHE === true) {
+    console.log('cache');
     const { asin } = req.params;
     const timer = start();
     redis.get(asin, function(err, data) {
       if (err) throw err;
-
       if (data != null) {
         console.log('cache-hit', asin);
         res.json(Object.assign({ time: timer.done() }, JSON.parse(data)));
@@ -50,6 +49,7 @@ function asinCache(req, res, next) {
       }
     });
   } else {
+    console.log('no-cache');
     next();
   }
 }

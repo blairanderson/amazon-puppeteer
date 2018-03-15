@@ -1,4 +1,3 @@
-let args = ['--no-sandbox', '--disable-setuid-sandbox'];
 // if (process.env.PROXYSERVER) {
 //   // `--proxy-server=${process.env.PROXYAUTH}@${process.env.PROXYSERVER}`
 //   args.push(
@@ -20,9 +19,8 @@ module.exports = {
       ? 'http://localhost:5000'
       : 'https://puppeteertest.herokuapp.com',
   puppeteerArgs: {
-    ignoreHTTPSErrors: true,
-    args: args,
-    slowMo: 250 // slow down by 250ms
+    ignoreHTTPSErrors: true
+    // slowMo: 250 // slow down by 250ms
   },
   userAgent:
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'

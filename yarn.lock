@@ -883,9 +883,9 @@ punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
-"puppeteer@https://github.com/GoogleChrome/puppeteer.git":
-  version "1.0.0-rc"
-  resolved "https://github.com/GoogleChrome/puppeteer.git#2becd156d0b25ad3fe4f7b91101b32aead70bd96"
+puppeteer@^1.1.1-next.1521139956274:
+  version "1.1.1-next.1521139956274"
+  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-1.1.1-next.1521139956274.tgz#ef9c87d67c13670877cffb54854fb008e04a915b"
   dependencies:
     debug "^2.6.8"
     extract-zip "^1.6.5"
