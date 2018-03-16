@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const { puppeteerArgs, userAgent, host, log } = require('./puppeteerargs.js');
+const expiration = 60 * 60 * 24;
+const rd = require('redis').createClient;
+const redis = process.env.REDIS_URL
+  ? rd(process.env.REDIS_URL)
+  : rd(6379, 'localhost');
 const parse = require('amazon-html-to-json').parse;
 
 async function fetchASIN(asin) {
@@ -94,7 +99,9 @@ async function fetchASIN(asin) {
     const parsed = parse($, images);
     log('content parsed', Date().toString());
     browser.close();
-    return Object.assign(newData, parsed);
+    const parsedData = Object.assign(newData, parsed);
+    redis.setex(asin, expiration, JSON.stringify(parsedData));
+    return parsedData;
   } catch (error) {
     browser.close();
     console.log('ERR', error.toString(), error.stack);
