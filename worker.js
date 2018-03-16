@@ -26,7 +26,7 @@ function cleanupsList(err, res, body) {
       return asinsToProcess.length > 0;
     },
     function(callback) {
-      fetchAndSend(asinsToProcess.shift(), callback);
+      lodash.delay(fetchAndSend, 3000, asinsToProcess.shift(), callback);
     },
     finalFinal
   );
