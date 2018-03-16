@@ -2,7 +2,7 @@ require('dotenv').config();
 const async = require('async');
 const { fetchASIN } = require('./fetchasin.js');
 const { asinCache } = require('./cacher.js');
-const { sampleSize } = require('lodash');
+const { sampleSize, delay } = require('lodash');
 const request = require('request-json');
 
 var client = request.createClient(
@@ -26,7 +26,7 @@ function cleanupsList(err, res, body) {
       return asinsToProcess.length > 0;
     },
     function(callback) {
-      lodash.delay(fetchAndSend, 3000, asinsToProcess.shift(), callback);
+      delay(fetchAndSend, 3000, asinsToProcess.shift(), callback);
     },
     finalFinal
   );
