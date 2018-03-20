@@ -5,20 +5,19 @@ const { asinCache } = require('./cacher.js');
 const { sampleSize, delay } = require('lodash');
 const request = require('request-json');
 
-var client = request.createClient(
-  'https://vdb:9999999@vendordb.herokuapp.com/'
-);
-
+var client = request.createClient('https://vendordb.herokuapp.com/');
+// heroku config:set VDB_NAME='vdb'
+// heroku config:set VDB_PASS='9999999'
+client.setBasicAuth(process.env.VDB_NAME, process.env.VDB_PASS);
 client.get('api/cleanups.json', cleanupsList);
 
-function finalFinal(err, result) {
-  console.log('final-err', err);
-  console.log('final-result', result);
-  process.exit();
-}
-
 function cleanupsList(err, res, body) {
-  var asinsToProcess = sampleSize(body.asins.slice(0, 50), 2);
+  // heroku config:set ASINS_TO_PROCESS=2
+  var asinsToProcess = sampleSize(
+    body.asins.slice(0, 50),
+    parseInt(process.env.ASINS_TO_PROCESS)
+  );
+
   console.log('asinsToProcess', asinsToProcess);
 
   async.whilst(
@@ -30,6 +29,12 @@ function cleanupsList(err, res, body) {
     },
     finalFinal
   );
+}
+
+function finalFinal(err, result) {
+  console.log('final-err', err);
+  console.log('final-result', result);
+  process.exit();
 }
 
 function fetchAndSend(asin, callback) {
