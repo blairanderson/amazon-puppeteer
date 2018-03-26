@@ -5,6 +5,10 @@ const { asinCache } = require('./cacher.js');
 const { sampleSize, delay } = require('lodash');
 const request = require('request-json');
 
+// 1. get the CURRENT LIST of ASINs to update
+// 2. chop it down
+//
+
 var client = request.createClient('https://vendordb.herokuapp.com/');
 // heroku config:set VDB_NAME='vdb'
 // heroku config:set VDB_PASS='9999999'
