@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "amazon-html-to-json": "https://github.com/blairanderson/amazon-html-to-json.git#a50d4cd133a5ac2f5dd1a7e9c2d1626fc5e01836",
+    "amazon-html-to-json": "https://github.com/blairanderson/amazon-html-to-json.git#015f65288f74caac43417065555639cb465a3462",
     "async": "^2.6.0",
     "async-waterfall": "^0.1.5",
     "aws-sdk": "^2.210.0",

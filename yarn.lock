@@ -34,9 +34,9 @@ ajv@^5.1.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#a50d4cd133a5ac2f5dd1a7e9c2d1626fc5e01836":
-  version "1.0.2"
-  resolved "https://github.com/blairanderson/amazon-html-to-json.git#a50d4cd133a5ac2f5dd1a7e9c2d1626fc5e01836"
+"amazon-html-to-json@https://github.com/blairanderson/amazon-html-to-json.git#015f65288f74caac43417065555639cb465a3462":
+  version "1.0.3"
+  resolved "https://github.com/blairanderson/amazon-html-to-json.git#015f65288f74caac43417065555639cb465a3462"
   dependencies:
     babel-runtime "^6.6.1"
     deep-equal "^1.0.1"

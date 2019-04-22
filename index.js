@@ -15,8 +15,11 @@ const redis = process.env.REDIS_URL
 app.set("port", process.env.PORT || 5000);
 app.use(express.static(__dirname + "/public"));
 app.use(require("./utils").ignoreFavicon);
+
 app.get("/", DOCS);
 app.use("/img", express.static("tmp"));
+
+// BASIC API KEY
 app.use(
   require("express-middleware-apikey")(process.env.PUPP_API_KEY.split(","))
 );
